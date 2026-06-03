@@ -17,7 +17,17 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - app_network
 
 volumes:
   pgdata:
     name: ${CONTAINER_NAME:-pgvector_db}_data
+
+networks:
+  # Shared with your app's compose project. Set NETWORK_NAME in .env to your
+  # app's network, then create it once (if it doesn't exist):
+  #   docker network create <NETWORK_NAME>
+  app_network:
+    external: true
+    name: ${NETWORK_NAME:-pgvector_net}
